@@ -1,0 +1,22 @@
+server:
+  port: 8081
+  contextPath: /
+
+mir:
+  sdk:
+    prefix: /
+    oneaa:
+      endpoint: http://172.16.64.39:8888/one-aa-api
+      clientid: 248297b5-2647-48f7-b56a-a63dd3d63c2a
+      secret: 33e1cb7f-57c6-4dae-9c39-fa686e1c8904
+      
+    log:
+      space: auditlogger
+    auth:
+      bypass: true
+    cached:
+      duration: 30
+    policyFile:
+      path: policy.yml
+     
+    

@@ -1,0 +1,65 @@
+# policy
+
+open: 
+  - api: /files/{filename}
+    method: GET
+  - api: /v1/docdive/documents/{id}/{filename}
+    method: GET
+restricted:
+  - group: 文档搜索
+    privileges:
+      - name: DataAdmin
+        displayName: 管理员权限
+        hidden: flase
+        apis:
+          - api: /v1/docdive/tenants
+            method: GET 
+          - api: /v1/docdive/categories/{id}
+            method: GET
+          - api: /v1/docdive/categories
+            method: POST
+          - api: /v1/docdive/categories/{id}
+            method: DELETE
+          - api: /v1/docdive/documents/file
+            method: POST
+          - api: /v1/docdive/documents
+            method: POST
+          - api: /v1/docdive/documents/{id}
+            method: GET
+          - api: /v1/docdive/documents/{id}
+            method: PUT
+          - api: /v1/docdive/documents/{id}
+            method: DELETE
+          - api: /v1/docdive/documents/stats
+            method: GET 
+          - api: /v1/docdive/documents/search
+            method: GET
+      - name: AdvanceUser
+        displayName: 业务部门权限
+        hidden: false
+        apis: 
+          - api: /v1/docdive/tenants
+            method: GET 
+          - api: /v1/docdive/categories/{id}
+            method: GET
+          - api: /v1/docdive/categories
+            method: POST
+          - api: /v1/docdive/categories/{id}
+            method: DELETE
+          - api: /v1/docdive/documents/file
+            method: POST
+          - api: /v1/docdive/documents
+            method: POST
+          - api: /v1/docdive/documents/{id}
+            method: GET
+          - api: /v1/docdive/documents/{id}
+            method: PUT
+          - api: /v1/docdive/documents/{id}
+            method: DELETE
+          - api: /v1/docdive/documents/stats
+            method: GET 
+          - api: /v1/docdive/documents/search
+            method: GET
+           
+           
+           

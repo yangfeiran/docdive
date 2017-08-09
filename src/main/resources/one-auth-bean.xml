@@ -1,0 +1,74 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+    <mvc:interceptors>
+        <bean class="com.chinacloud.mir.common.audit.MirCommonRequestContextInterceptor"/>
+    </mvc:interceptors>
+
+    <aop:config>
+        <aop:aspect id="miralsp" ref="auditLogger">
+            <aop:pointcut id="auditLogAddRoleCut"
+                          expression="execution(* com.chinacloud.mir.common.controller.UserPrivController.addRole(..))"/>
+            <aop:pointcut id="auditLogDeleteRoleCut"
+                          expression="execution(* com.chinacloud.mir.common.controller.UserPrivController.deleteRole(..))"/>
+            <aop:pointcut id="auditLogUpdateRoleCut"
+                          expression="execution(* com.chinacloud.mir.common.controller.UserPrivController.updateRole(..))"/>
+            <aop:pointcut id="auditLogAddPrivsForRoleCut"
+                          expression="execution(* com.chinacloud.mir.common.controller.UserPrivController.addPrivsForRole(..))"/>
+            <aop:pointcut id="auditLogAddRolesForUserCut"
+                          expression="execution(* com.chinacloud.mir.common.controller.UserPrivController.addRolesForUser(..))"/>
+            <aop:pointcut id="auditLogAfindPrivsForUserCut"
+                          expression="execution(* com.chinacloud.mir.common.controller.UserPrivController.findPrivsForUser(..))"/>
+
+            <aop:around pointcut-ref="auditLogAddRoleCut" method="logAction"/>
+            <aop:around pointcut-ref="auditLogDeleteRoleCut" method="logAction"/>
+            <aop:around pointcut-ref="auditLogUpdateRoleCut" method="logAction"/>
+            <aop:around pointcut-ref="auditLogAddPrivsForRoleCut" method="logAction"/>
+            <aop:around pointcut-ref="auditLogAddRolesForUserCut" method="logAction"/>
+            <aop:around pointcut-ref="auditLogAfindPrivsForUserCut" method="logAction"/>
+        </aop:aspect>
+    </aop:config>
+
+
+    <!-- MyBatis配置 -->
+    <bean id="mirOneAAsqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
+        <property name="typeAliasesPackage" value="com.chinacloud.mir.common.entity"/>
+        <!-- 显式指定Mapper文件位置 -->
+        <property name="mapperLocations" value="classpath*:/oneaaMybatis/*Mapper.xml" />
+    </bean>
+
+    <bean id="mirOneAAsqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="mirOneAAsqlSessionFactory"/>
+    </bean>
+
+    <bean id="oneAAService" class="com.chinacloud.mir.common.service.OneAAServiceImpl">
+        <property name="oneAAendpoint" value="${mir.sdk.oneaa.endpoint}"></property>
+        <property name="keyCloakKey" value="${mir.sdk.oneaa.clientid}"></property>
+        <property name="keyCloakToken" value="${mir.sdk.oneaa.secret}"></property>
+
+    </bean>
+    <bean id="cachedService" class="com.chinacloud.mir.common.service.CachedServiceImpl">
+        <property name="cachedTime" value="${mir.sdk.cached.duration}"></property>
+    </bean>
+    <bean id="userPrivService" class="com.chinacloud.mir.common.service.UserPrivServiceImpl" init-method="init">
+        <property name="policyFile" value="${mir.sdk.policyFile.path}"/>
+    </bean>
+
+
+    <bean id="authFilterSeriver" class="com.chinacloud.mir.common.service.AuthFilter">
+        <property name="keyCloakKey" value="${mir.sdk.oneaa.clientid}"></property>
+        <property name="keyCloakToken" value="${mir.sdk.oneaa.secret}"></property>
+        <property name="preFix" value="${mir.sdk.prefix}"></property>
+        <property name="authBypass" value="${mir.sdk.auth.bypass}"></property>
+        <property name="logSpace" value="${mir.sdk.log.space}"></property>
+    </bean>
+
+</beans>

@@ -1,0 +1,144 @@
+# policy
+
+open: 
+  - api: /files/{filename}
+    method: GET
+  - api: /v1/docdive/documents/{id}/{filename}
+    method: GET
+restricted:
+  - group: 管理员权限
+    privileges:
+      - name: getTenants
+        displayName: 获取当前用户所属租户列表
+        hidden: true
+        apis:
+          - api: /v1/docdive/tenants
+            method: GET
+      - name: getCategories
+        displayName: 获取文档分类列表
+        hidden: true
+        apis: 
+         - api: /v1/docdive/categories/{id}
+           method: GET
+      - name: addCategories
+        displayName: 新增文档分类
+        hidden: true
+        apis: 
+         - api: /v1/docdive/categories
+           method: POST
+      - name: delCategories
+        displayName: 删除文档分类
+        hidden: true
+        apis: 
+         - api: /v1/docdive/categories/{id}
+           method: DELETE
+      - name: uploadFile
+        displayName: 上传文件
+        hidden: true
+        apis: 
+         - api: /v1/docdive/documents/file
+           method: POST
+      - name: addDocuments
+        displayName: 保存文档信息
+        hidden: true     
+        apis: 
+         - api: /v1/docdive/documents
+           method: POST
+      - name: getDocument
+        displayName: 查询单个文档
+        hidden: true
+        apis: 
+         - api: /v1/docdive/documents/{id}
+           method: GET
+      - name: updateDocument
+        displayName: 修改文档信息
+        hidden: true
+        apis: 
+         - api: /v1/docdive/documents/{id}
+           method: PUT
+      - name: deleteDocument
+        displayName: 删除文档
+        hidden: true
+        apis: 
+         - api: /v1/docdive/documents/{id}
+           method: DELETE
+      - name: countDocument
+        displayName: 文档统计
+        hidden: true
+        apis:
+          - api: /v1/docdive/documents/stats
+            method: GET 
+      - name: searchDocument
+        displayName: 文档搜索
+        hidden: true
+        apis:
+          - api: /v1/docdive/documents/search
+            method: GET 
+  - group: 业务部门权限
+    privileges:
+      - name: getTenants
+        displayName: 获取当前用户所属租户列表
+        hidden: true
+        apis:
+          - api: /v1/docdive/tenants
+            method: GET
+      - name: getCategories
+        displayName: 获取文档分类列表
+        hidden: true
+        apis: 
+         - api: /v1/docdive/categories/{id}
+           method: GET
+      - name: addCategories
+        displayName: 新增文档分类
+        hidden: true
+        apis: 
+         - api: /v1/docdive/categories
+           method: POST
+      - name: delCategories
+        displayName: 删除文档分类
+        hidden: true
+        apis: 
+         - api: /v1/docdive/categories/{id}
+           method: DELETE
+      - name: uploadFile
+        displayName: 上传文件
+        hidden: true
+        apis: 
+         - api: /v1/docdive/documents/file
+           method: POST
+      - name: addDocuments
+        displayName: 保存文档信息
+        hidden: true     
+        apis: 
+         - api: /v1/docdive/documents
+           method: POST
+      - name: getDocument
+        displayName: 查询单个文档
+        hidden: true
+        apis: 
+         - api: /v1/docdive/documents/{id}
+           method: GET
+      - name: updateDocument
+        displayName: 修改文档信息
+        hidden: true
+        apis: 
+         - api: /v1/docdive/documents/{id}
+           method: PUT
+      - name: deleteDocument
+        displayName: 删除文档
+        hidden: true
+        apis: 
+         - api: /v1/docdive/documents/{id}
+           method: DELETE
+      - name: countDocument
+        displayName: 文档统计
+        hidden: true
+        apis:
+          - api: /v1/docdive/documents/stats
+            method: GET         
+      - name: searchDocument
+        displayName: 文档搜索
+        hidden: true
+        apis:
+          - api: /v1/docdive/documents/search
+            method: GET         
